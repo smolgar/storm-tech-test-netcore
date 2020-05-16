@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Identity;
 
 namespace Todo.Data.Entities {
     public class TodoItem
     {
         public int TodoItemId { get; set; }
         public string Title { get; set; }
+        [Display(Name = "Assigned User")]
         public string ResponsiblePartyId { get; set; }
         public IdentityUser ResponsibleParty { get; set; }
         public bool IsDone { get; set; }
