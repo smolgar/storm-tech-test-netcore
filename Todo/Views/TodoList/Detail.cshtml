@@ -18,8 +18,11 @@
                 <strong>Add New Item</strong>
             </a>
         </li>
+        @{
+            var orderedListAsc = Model.Items.OrderBy(item => item.Importance).ToList();
+         }
 
-        @foreach (var item in Model.Items)
+        @foreach (var item in orderedListAsc)
         {
             string contextualClass;
             switch (item.Importance)
