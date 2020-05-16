@@ -19,7 +19,7 @@
             </a>
         </li>
         @{
-            var orderedListAsc = Model.Items.OrderBy(item => item.Importance).ToList();
+            var orderedListAsc = Model.Items.Where(i=> i.IsDone == false).OrderBy(i => i.Importance).ToList();
          }
 
         @foreach (var item in orderedListAsc)
@@ -45,14 +45,9 @@
                 <div class="col-md-8">
                     <a asp-action="Edit" asp-controller="TodoItem" asp-route-todoItemId="@item.TodoItemId">
 
-                        @if (item.IsDone)
-                        {
-                            <s>@item.Title</s>
-                        }
-                        else
-                        {
+                       
                             <text>@item.Title</text>
-                        }
+                        
                     </a>
                 </div>
 
