@@ -27,6 +27,14 @@ namespace Todo.Controllers
             return View(fields);
         }
 
+        [HttpGet]
+        public IActionResult CreateItemPartial(int id)
+        {
+            var todoList = dbContext.SingleTodoList(id);
+            var fields = TodoItemCreateFieldsFactory.Create(todoList, User.Id());
+            return PartialView("_CreatePartial", fields);
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(TodoItemCreateFields fields)
@@ -41,6 +49,19 @@ namespace Todo.Controllers
             return RedirectToListDetail(fields.TodoListId);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreatePartialPost(TodoItemCreateFields fields)
+        {
+            if (!ModelState.IsValid) { return View(fields); }
+
+            var item = new TodoItem(fields.TodoListId, fields.ResponsiblePartyId, fields.Title, fields.Importance);
+
+            await dbContext.AddAsync(item);
+            await dbContext.SaveChangesAsync();
+
+            return RedirectToListDetail(fields.TodoListId);
+        }
         [HttpGet]
         public IActionResult Edit(int todoItemId)
         {
