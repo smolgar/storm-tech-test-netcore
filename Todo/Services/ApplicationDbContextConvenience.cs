@@ -10,10 +10,8 @@ namespace Todo.Services
         public static IQueryable<TodoList> RelevantTodoLists(this ApplicationDbContext dbContext, string userId)
         {
             return dbContext.TodoLists.Include(tl => tl.Owner)
-                 .Include(tl => tl.Items)
-                 .Where(tl =>
-                    (tl.Owner.Id == userId) ||
-                    (tl.Items.Any(i => i.ResponsiblePartyId == userId)));
+                .Include(tl => tl.Items)
+                .Where(tl => tl.Owner.Id == userId);
         }
 
         public static TodoList SingleTodoList(this ApplicationDbContext dbContext, int todoListId)
